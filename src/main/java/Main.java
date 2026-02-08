@@ -35,8 +35,83 @@ class Main {
 		System.out.println("the sum of the numbers that can be divided by 2 and not by 3: " + divide_by2_notby3(t));
 		System.out.println("from 1 to num?" + one_to_num(t,7));
 		System.out.println("the hight of the tree is:" + hight(t));
+		System.out.println("zero or 2 child:" + zero_or_2_child(t));
+		System.out.println("the max is:" + max(t));
+		System.out.println("the min is:" + min(t));
+		System.out.println("the difference is:" + max_difference_min(t));
+		System.out.println("is it a full tree?: " + full_tree(t));
+	}
+
+	public static boolean full_tree(BinNode <Integer> t)
+	{
+		int hight=hight(t);
+		int leaves = leaves(t);
+		return (leaves==Math.pow(2, hight));
+	}
+
+	public static int leaves(BinNode <Integer> t)
+	{
+		if(t==null) return 0;
+		
+		if(!t.hasLeft()&&!t.hasRight())
+			return 1;
+		return leaves(t.getLeft()) + leaves(t.getRight());
+	}
+
+	public static boolean zero_or_2_child(BinNode <Integer> t)
+	{
+		if(t==null) return true;
+		if(!t.hasLeft()&&t.hasRight() || t.hasLeft()&&!t.hasRight())
+		{
+			return false;
+		}
+		return zero_or_2_child(t.getLeft()) && zero_or_2_child(t.getRight());
+	}
+
+	public static int max(BinNode <Integer> t)
+	{
+		if(t==null) return Integer.MIN_VALUE;;
+
+		int leftMax = max(t.getLeft());
+    	int rightMax = max(t.getRight());
+
+    	return Math.max(t.getValue(),
+           Math.max(leftMax, rightMax));
+	}
+
+	public static int min(BinNode <Integer> t)
+	{
+		if(t==null) return Integer.MAX_VALUE;;
+
+		int leftMin = min(t.getLeft());
+    	int rightMin = min(t.getRight());
+
+    	return Math.min(t.getValue(),
+           Math.min(leftMin, rightMin));
+	}
+
+	public static int max_difference_min(BinNode <Integer> t)
+	{
+		return max(t)-min(t);
 	}
 	
+
+	public static boolean symmetrical(BinNode<Integer> t) {
+    if (t == null) return true;
+
+    int leftHeight = height2(t.getLeft());
+    int rightHeight = height2(t.getRight());
+
+    return Math.abs(leftHeight - rightHeight) <= 1
+        && symmetrical(t.getLeft())
+        && symmetrical(t.getRight());
+}
+
+private static int height2(BinNode<Integer> t) {
+    if (t == null) return -1;
+    return Math.max(height2(t.getLeft()), height2(t.getRight())) + 1;
+}
+
 	public static int hight(BinNode <Integer> t)
 	{
 	if(t==null) return -1;
